@@ -16,7 +16,8 @@ public class JogadorController {
 
     @PostMapping
     public void cadastrarJogador(@RequestBody DadosCadastroJogador dados) {
-        System.out.println(dados);
+        jogadorService.criarJogador(dados);
+        System.out.println("cadastro feito");
     }
 
     @GetMapping
