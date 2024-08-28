@@ -30,6 +30,8 @@ public class JogadorService {
     public Jogador criarJogador(DadosCadastroJogador cadastroJogador) {
        Jogador player = new Jogador();
        player.setNome(cadastroJogador.nome());
+       player.setCpf(cadastroJogador.cpf());
+       player.setDataNascimento(cadastroJogador.dataNascimento());
        player.setIdade(cadastroJogador.idade());
        player.setEmail(cadastroJogador.email());
        player.setPosicao(cadastroJogador.posicao());
@@ -38,5 +40,26 @@ public class JogadorService {
 
 
        return jogadorRepository.save(player);
+    }
+
+    public Jogador atualizarJogador(Long id, DadosCadastroJogador cadastroJogador) {
+        Optional<Jogador> jogadorExistente = jogadorRepository.findById(id);
+
+        if (jogadorExistente.isPresent()) {
+            Jogador jogador = jogadorExistente.get();
+
+            jogador.setNome(cadastroJogador.nome());
+            jogador.setCpf(cadastroJogador.cpf());
+            jogador.setEmail(cadastroJogador.email());
+            jogador.setDataNascimento(cadastroJogador.dataNascimento());
+            jogador.setIdade(cadastroJogador.idade());
+            jogador.setPosicao(cadastroJogador.posicao());
+            jogador.setStatus(cadastroJogador.status());
+            jogador.setEndereco(cadastroJogador.endereco());
+
+            return jogadorRepository.save(jogador);
+        } else {
+            throw new RuntimeException("Jogador não encontrado.");
+        }
     }
 }

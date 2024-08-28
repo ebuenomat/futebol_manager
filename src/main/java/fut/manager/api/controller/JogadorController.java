@@ -50,4 +50,17 @@ public class JogadorController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Jogador deletado com sucesso!!");
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> atualizarJogador(@PathVariable(value = "id") Long id,
+                                                   @RequestBody @Valid DadosCadastroJogador dados) {
+        Optional<Jogador> jogador = jogadorService.jogador(id);
+        if(jogador.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Jogador não encontrado");
+        }
+        Jogador jogadorAtualizado = jogadorService.atualizarJogador(id, dados);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(jogadorAtualizado);
+    }
 }

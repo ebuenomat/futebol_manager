@@ -7,6 +7,8 @@ import fut.manager.api.models.records.DadosEndereco;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity(name = "Jogador")
 @Table(name = "jogador")
 @Getter
@@ -20,7 +22,11 @@ public class Jogador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+
+    private String cpf;
     private String email;
+
+    private LocalDate dataNascimento;
     private Integer idade;
     @Enumerated(EnumType.STRING)
     private Posicao posicao;
@@ -30,12 +36,18 @@ public class Jogador {
     @Embedded
     private DadosEndereco endereco;
 
+    @ManyToOne
+    @JoinColumn(name = "clube_id")
+    private Clube clube;
+
     public Jogador(DadosCadastroJogador cadastroJogador) {
-        this.nome = nome;
-        this.email = email;
-        this.idade = idade;
-        this.posicao = posicao;
-        this.status = status;
+        this.nome = cadastroJogador.nome();
+        this.cpf = cadastroJogador.cpf();
+        this.email = cadastroJogador.email();
+        this.dataNascimento = cadastroJogador.dataNascimento();
+        this.idade = cadastroJogador.idade();
+        this.posicao = cadastroJogador.posicao();
+        this.status = cadastroJogador.status();
         this.endereco = new DadosEndereco(cadastroJogador.endereco());
     }
 
