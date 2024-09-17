@@ -1,6 +1,7 @@
 package fut.manager.api.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import fut.manager.api.models.records.DadosClube;
 import fut.manager.api.models.records.DadosEndereco;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class Clube {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nomeFantasia;
 
     private String cnpj;
@@ -36,6 +38,18 @@ public class Clube {
     private DadosEndereco endereco;
 
     @OneToMany(mappedBy = "clube", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "jogador_id")
     private List<Jogador> jogadores;
+
+    public Clube(DadosClube dadosClube) {
+        this.nomeFantasia = dadosClube.nomeFantasia();
+        this.cnpj = dadosClube.cnpj();
+        this.fundacao = dadosClube.fundacao();
+        this.mascote = dadosClube.mascote();
+        this.endereco = new DadosEndereco(dadosClube.endereco());
+        this.jogadores = dadosClube.jogadores();
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

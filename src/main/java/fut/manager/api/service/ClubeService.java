@@ -42,4 +42,23 @@ public class ClubeService {
 
         return clubeRepository.save(clube);
     }
+
+    public Clube atualizarClube(Long id, DadosClube dadosClube) {
+        Optional<Clube> clubeExistente = clubeRepository.findById(id);
+
+        if(clubeExistente.isPresent()) {
+            Clube clube = clubeExistente.get();
+
+            clube.setNomeFantasia(dadosClube.nomeFantasia());
+            clube.setCnpj(dadosClube.cnpj());
+            clube.setFundacao(dadosClube.fundacao());
+            clube.setMascote(dadosClube.mascote());
+            clube.setEndereco(dadosClube.endereco());
+            clube.setJogadores(dadosClube.jogadores());
+
+            return clubeRepository.save(clube);
+        } else {
+            throw new RuntimeException("Clube não encontrado.");
+        }
+    }
 }

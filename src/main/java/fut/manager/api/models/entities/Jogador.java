@@ -49,6 +49,7 @@ public class Jogador {
         this.posicao = cadastroJogador.posicao();
         this.status = cadastroJogador.status();
         this.endereco = new DadosEndereco(cadastroJogador.endereco());
+        this.clube = cadastroJogador.clube();
     }
 
 
